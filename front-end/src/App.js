@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import Header from './Header';
+import BookList from './BookList';
+import BookForm from './BookForm'; // Import the BookForm component
 
 function App() {
+  const [books, setBooks] = useState([]);
+
+  const handleBookAdded = (newBook) => {
+    // Update the book list with the newly added book
+    setBooks([...books, newBook]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <BookForm onBookAdded={handleBookAdded} /> {/* Add BookForm component */}
+      <BookList books={books} /> {/* Pass books as props */}
     </div>
   );
 }
