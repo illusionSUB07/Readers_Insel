@@ -87,19 +87,19 @@ function BookForm({ onBookAdded , bookToEdit}) {
   return (
     <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
       <Grid item xs={12} sm={8} lg={6}>
-        <Paper elevation={3} style={{ padding: '20px', position: 'relative' }}>
-          {loading && (
-            <CircularProgress
-              size={24}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
-              }}
-            />
-          )}
+      <Paper elevation={3} style={{ padding: '20px', backgroundColor: '#FFECB3', color: '#3E2723', position: 'relative' }}>
+        {loading && (
+          <CircularProgress
+            size={24}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+        )}
           <Typography variant="h5" gutterBottom>
             Edit Details
           </Typography>
@@ -191,6 +191,7 @@ function BookForm({ onBookAdded , bookToEdit}) {
               helperText={errors.isbn}
               required
             />
+            
             {/* Submit Button */}
             <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
               {bookToEdit ? 'Update Book' : 'Add Book'}
