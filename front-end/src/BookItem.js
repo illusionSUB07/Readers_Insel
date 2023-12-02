@@ -85,7 +85,7 @@ function BookItem({ book, onEdit, onDelete }) {
   <div style={modalContentStyle}> {/* Apply modalContentStyle here */}
     <BookForm bookToEdit={book} onBookAdded={() => {
       handleClose();
-      onEdit(); // You might need to modify this to refresh the book list
+      onEdit(); 
     }} />
   </div>
 </Fade>

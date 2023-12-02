@@ -43,7 +43,7 @@ function BookList() {
   // Function to refresh the list of books (e.g., after adding a new book)
   const refreshBooks = async () => {
     // Refresh logic (e.g., re-fetch books from backend)
-    setOpenAddForm(false);
+    setOpenAddForm(true);
   };
 
   return (
