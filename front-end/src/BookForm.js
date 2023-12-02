@@ -101,7 +101,7 @@ function BookForm({ onBookAdded , bookToEdit}) {
           />
         )}
           <Typography variant="h5" gutterBottom>
-            Edit Details
+          {bookToEdit ? 'Edit Book Details' : 'Add Book Details'}
           </Typography>
           <form onSubmit={handleSubmit} noValidate>
             {/* Title Field */}

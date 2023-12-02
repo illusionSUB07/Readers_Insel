@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Fab, Modal, Backdrop, Fade } from '@mui/material';
+import { Fab, Modal, Backdrop, Fade } from '@mui/material'; // Correctly import Fab from Material-UI
 import AddIcon from '@mui/icons-material/Add';
 import BookItem from './BookItem';
 import BookForm from './BookForm';
 
 function BookList() {
-  const [books, setBooks] = useState([]);
-  const [openAddForm, setOpenAddForm] = useState(false);
+  const [books, setBooks] = useState([]); // State to hold the list of books
+  // const [editingBook, setEditingBook] = useState(null); // Uncomment if implementing edit functionality
 
   useEffect(() => {
+    // Fetch books from the backend on component mount
     axios.get('http://localhost:4002/books')
       .then(response => {
         setBooks(response.data);
@@ -17,31 +18,42 @@ function BookList() {
       .catch(error => console.error('Error fetching books:', error));
   }, []);
 
+  // Function to handle deleting a book
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:4002/books/${id}`);
-    setBooks(books.filter(book => book.id !== id));
+    try {
+      await axios.delete(`http://localhost:4002/books/${id}`);
+      setBooks(books.filter(book => book.id !== id)); // Update the state to reflect the deletion
+    } catch (error) {
+      console.error('Error deleting book:', error);
+    }
   };
 
-  const handleOpenAddForm = () => setOpenAddForm(true);
-  const handleCloseAddForm = () => setOpenAddForm(false);
+  // State and functions to control the opening and closing of the add book form modal
+  const [openAddForm, setOpenAddForm] = useState(false);
 
-  const refreshBooks = () => {
+  const handleOpenAddForm = () => {
+    // setEditingBook(null); // Reset editing book if implementing edit functionality
+    setOpenAddForm(true); // Open the modal for adding a book
+  };
+
+  const handleCloseAddForm = () => {
+    setOpenAddForm(false); // Close the modal
+  };
+
+  // Function to refresh the list of books (e.g., after adding a new book)
+  const refreshBooks = async () => {
+    // Refresh logic (e.g., re-fetch books from backend)
     setOpenAddForm(false);
-    axios.get('http://localhost:4002/books')
-      .then(response => {
-        setBooks(response.data);
-      })
-      .catch(error => console.error('Error fetching books:', error));
   };
 
   return (
     <div>
+      {/* Map through the books and render each book item */}
       {books.map(book => (
-        <div key={book.id}>
-          <BookItem book={book} onDelete={handleDelete} />
-        </div>
+        <BookItem key={book.id} book={book} onDelete={handleDelete} />
       ))}
 
+      {/* FAB for opening the add book form modal */}
       <Fab 
         color="primary" 
         aria-label="add" 
@@ -51,11 +63,11 @@ function BookList() {
         <AddIcon />
       </Fab>
 
+      {/* Modal for adding a new book */}
       <Modal
         open={openAddForm}
         onClose={handleCloseAddForm}
         BackdropComponent={Backdrop}
-        closeAfterTransition
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         <Fade in={openAddForm}>

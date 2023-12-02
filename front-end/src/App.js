@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Header from './Header';
 import BookList from './BookList';
-import BookForm from './BookForm'; // Import the BookForm component
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -15,8 +14,7 @@ function App() {
   return (
     <div>
       <Header />
-      <BookForm onBookAdded={handleBookAdded} /> {/* Add BookForm component */}
-      <BookList books={books} /> {/* Pass books as props */}
+      <BookList books={books} onBookAdded={handleBookAdded} /> {/* Pass books and onBookAdded as props */}
     </div>
   );
 }
