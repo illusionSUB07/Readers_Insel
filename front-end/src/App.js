@@ -1,20 +1,25 @@
-// App.js
 import React, { useState } from 'react';
 import Header from './Header';
 import BookList from './BookList';
+import HeroSection from './HeroSection'; // Adjust the path based on your directory structure
 
 function App() {
-  const [books, setBooks] = useState([]);
+  const [showBooks, setShowBooks] = useState(false); // State to control BookList visibility
 
-  const handleBookAdded = (newBook) => {
-    // Update the book list with the newly added book
-    setBooks([...books, newBook]);
+  const handleGetStarted = () => {
+    setShowBooks(true); // Show BookList when "Get Started" is clicked
   };
 
   return (
     <div>
-      <Header />
-      <BookList books={books} onBookAdded={handleBookAdded} /> {/* Pass books and onBookAdded as props */}
+      {showBooks ? (
+        <>
+          <Header />
+          <BookList />
+        </>
+      ) : (
+        <HeroSection onGetStarted={handleGetStarted} />
+      )}
     </div>
   );
 }
