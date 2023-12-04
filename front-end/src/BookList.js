@@ -35,6 +35,18 @@ function BookList() {
     // setEditingBook(null); // Reset editing book if implementing edit functionality
     setOpenAddForm(true); // Open the modal for adding a book
   };
+  const handleBookAdded = async () => {
+    try {
+      const response = await axios.get('http://localhost:4002/books');
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+    handleCloseAddForm(); // Close the modal
+  };
+
+
+  
 
   const handleCloseAddForm = () => {
     setOpenAddForm(false); // Close the modal
@@ -42,16 +54,33 @@ function BookList() {
 
   // Function to refresh the list of books (e.g., after adding a new book)
   const refreshBooks = async () => {
-    // Refresh logic (e.g., re-fetch books from backend)
-    setOpenAddForm(true);
+    try {
+      const response = await axios.get('http://localhost:4002/books');
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
   };
 
+  const handleBookUpdated = async () => {
+    try {
+      const response = await axios.get('http://localhost:4002/books');
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    }
+    // Add any additional logic if needed, e.g., closing a modal
+  };
+
+  
   return (
+    
     <div>
-      {/* Map through the books and render each book item */}
+      <div className="booklist-container">
       {books.map(book => (
-        <BookItem key={book.id} book={book} onDelete={handleDelete} />
-      ))}
+        <BookItem key={book.id} book={book} onDelete={handleDelete}  onEdit={handleBookUpdated} />
+        ))}
+      {/* Map through the books and render each book item */}
 
       {/* FAB for opening the add book form modal */}
       <Fab 
@@ -72,11 +101,14 @@ function BookList() {
       >
         <Fade in={openAddForm}>
           <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '10px', maxHeight: '80vh', overflowY: 'auto' }}>
-            <BookForm onBookAdded={refreshBooks} />
+            <BookForm onBookAdded={handleBookAdded} />
           </div>
+          
         </Fade>
       </Modal>
     </div>
+    </div>
+
   );
 }
 

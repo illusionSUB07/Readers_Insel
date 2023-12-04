@@ -15,13 +15,13 @@ function HeroSection({ onGetStarted }) {
     const subtitleTimeout = setTimeout(() => {
       setShowTitle(false);
       setShowSubtitle(true);
-    }, 4000); // Adjust time as needed
+    }, 3000); // Adjust time as needed
 
     // Hide subtitle after some time and show button
     const buttonTimeout = setTimeout(() => {
       setShowSubtitle(false);
       setShowButton(true);
-    }, 8000); // Adjust time as needed
+    }, 6000); // Adjust time as needed
 
     return () => {
       clearTimeout(titleTimeout);
@@ -48,12 +48,12 @@ function HeroSection({ onGetStarted }) {
     >
       <div>
         {showTitle && (
-          <Typography variant="h2" style={{ animation: 'fadeOut 2s ease-in-out forwards' }}>
-            Discover the World of Books
+          <Typography variant="h2" style={{ animation: 'fadeIn 2s ease-in-out, fadeOut 2s ease-in-out 3s forwards' }}>
+            Welcome to Readers_Insel!
           </Typography>
         )}
         {showSubtitle && (
-          <Typography variant="h3" style={{ animation: 'fadeOut 2s ease-in-out forwards' }}>
+          <Typography variant="h3" style={{ animation: 'fadeIn 2s ease-in-out, fadeOut 2s ease-in-out 3s forwards' }}>
             Explore a vast collection of literary treasures.
           </Typography>
         )}

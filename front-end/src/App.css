@@ -1,24 +1,50 @@
+
 .App {
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensure the cards cover the full viewport height */
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
+    height: 40vmin;
+  pointer-events: none;
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.flip-card {
-  perspective: 1000px;
-  width: 200px; /* Adjust based on your needs */
+
+
+.booklist-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  margin: auto;
+}
+.flip-card-container {
+  width: 250px; /* Match the width of the flip card */
+  height: 350px; /* Match the height of the flip card */
+  margin: 20px; /* Space between cards */
+  overflow: hidden; /* Prevents enlarged card from overflowing */
+}
+* {
+  box-shadow: none;
 }
 
+.flip-card {
+  transform-origin: center center; /* Adjust as needed */
+  height: 350px;
+  width: 250px; 
+  margin-bottom: 20px; /* Space between cards */
+  transition: transform 0.6s ease-in-out, box-shadow 0.3s ease, z-index 0s 0.6s;
+
+
+  
+}
 .flip-card-inner {
   position: relative;
   width: 200px;
@@ -27,6 +53,14 @@
   transition: transform 0.6s;
   transform-style: preserve-3d;
 }
+.flip-card:hover {
+  transform: scale(1.1); /* Enlarge the card on hover */
+  z-index: 10; /* Ensure the card is above others */
+}
+.flip-card:not(:hover) {
+  transform: scale(0.95); /* Optional: Scale down non-hovered cards */
+}
+
 
 .flip-card:hover .flip-card-inner {
   transform: rotateY(180deg);
@@ -35,7 +69,7 @@
   width: 100%; /* Makes the image take full width of the container */
   height: auto; /* Makes the image take full height of the container */
   object-fit: cover; /* Ensures the image covers the area without stretching */
-  /*object-position: center; /* Aligns the image centrally */
+  object-position: center; 
 }
 
 .flip-card-front, .flip-card-back {
@@ -58,9 +92,34 @@
 
 .flip-card-back {
   transform: rotateY(180deg);
-  overflow-y: auto; /* Allows vertical scrolling */
-  padding: 10px; 
+  overflow-y: auto;
+  padding: 20px; /* Increased padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Evenly space out the content */
+  align-items: start; /* Align items to start */
+  background-color: #fff; /* Light background for readability */
+  color: #333; /* Darker text for contrast */
+}
+.flip-card-back h5 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
+.flip-card-back p {
+  margin-bottom: 10px;
+}
+.flip-card-back::-webkit-scrollbar {
+  width: 6px;
+}
+
+.flip-card-back::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 10px;
+}
+
+.flip-card-front, .flip-card-back {
+  border-radius: 15px; /* Adjust as per your design */
 }
 
 
@@ -83,6 +142,105 @@
   background-color: rgba(0, 0, 0, 0.5); /* Customize the backdrop's background color */
   backdrop-filter: blur(5px); /* Apply blur to the backdrop */
 }
+/* Flip card when it's selected */
+.flip-card-selected .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Pop-out effect for selected card */
+.flip-card-selected {
+  transform: scale(1.1);
+  z-index: 2; /* Ensure the selected card is above others */
+  transition: transform 0.6s ease-in-out;
+}
+
+.button-like {
+  border: 2px solid #8a8a8a;
+  background-color: transparent;
+  text-decoration: none;
+  padding: 1rem;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  border-radius: 3rem;
+  color: #8a8a8a;
+  transition: all ease 0.4s;
+}
+
+.button-like span {
+  margin-left: 0.5rem;
+}
+
+.button-like .fa,
+.button-like span {
+  transition: all ease 0.4s;
+}
+
+.button-like:focus {
+  background-color: transparent;
+}
+
+.button-like:focus .fa,
+.button-like:focus span {
+  color: #8a8a8a;
+}
+
+.button-like:hover {
+  border-color: #cc4b37;
+  background-color: transparent;
+}
+
+.button-like:hover .fa,
+.button-like:hover span {
+  color: #cc4b37;
+}
+
+.liked {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked .fa,
+.liked span {
+  color: #fefefe;
+}
+
+.liked:focus {
+  background-color: #cc4b37;
+}
+
+.liked:focus .fa,
+.liked:focus span {
+  color: #fefefe;
+}
+
+.liked:hover {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked:hover .fa,
+.liked:hover span {
+  color: #fefefe;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.edit-delete-container {
+  display: flex; /* This ensures that edit and delete icons are in a row */
+  align-items: center;
+  gap: 5px; /* Adjust the gap between the edit and delete buttons as needed */
+}
+
+
+
+
+
 
 
 

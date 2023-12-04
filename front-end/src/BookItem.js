@@ -4,11 +4,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './App.css'; 
 import BookForm from './BookForm';
+import FavoriteIcon from '@mui/icons-material/Favorite'; // Import the icon from Material-UI
+
 
 
 function BookItem({ book, onEdit, onDelete }) {
   const [likes, setLikes] = useState(0);
   const [open, setOpen] = useState(false); // State to control the modal
+  const [isSelected, setIsSelected] = useState(false); // State to track if the card is selected
+
+  const toggleCard = () => {
+    setIsSelected(!isSelected);
+    setTimeout(() => {
+      setIsSelected(false);
+    }, 1000);
+  };
+
+
 
   // Style for the modal content
   const modalContentStyle = {
@@ -34,6 +46,7 @@ function BookItem({ book, onEdit, onDelete }) {
   
 
   return (
+    <div className={`flip-card ${isSelected ? 'flip-card-selected' : ''}`} style={{ margin: '20px' }} onClick={toggleCard}>
     <div className="flip-card" style={{ margin: '20px' }}>
       <div className="flip-card-inner">
         <div className="flip-card-front">
@@ -42,28 +55,31 @@ function BookItem({ book, onEdit, onDelete }) {
           ) : (
             <p>No image!</p>
           )}
-          <Typography variant="h6" component="div" style={{ position: 'absolute', bottom: 10, left: 10, color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: '4px', borderRadius: '4px' }}>
-            {book.title}
-          </Typography>
+          
         </div>
         <div className="flip-card-back" style={{ backgroundColor: '#FFECB3', borderRadius: '10px' }}>
           <CardContent>
             <Typography variant="h5" component="div" style={{ fontWeight: 'bold' }}>{book.title}</Typography>
-            <Typography color="text.secondary">Author: {book.author}</Typography>
-            <Typography color="text.secondary">Genre: {book.genre}</Typography>
-            <Typography color="text.secondary">Published Year: {book.published_year}</Typography>
-            <Typography color="text.secondary">Description: {book.description}</Typography>
-            <Typography color="text.secondary">ISBN: {book.isbn}</Typography>
-            <Button onClick={() => setLikes(likes + 1)}>Like</Button>
-            <Typography style={{ marginTop: '8px' }}>{likes} Likes</Typography>
-            <IconButton color="primary" onClick={handleOpen}>
-              <EditIcon />
-            </IconButton>
-            <IconButton color="secondary" onClick={() => onDelete(book.id)}>
-              <DeleteIcon />
-            </IconButton>
+            <Typography color="text.secondary">  <strong>Author:</strong> {book.author}</Typography>
+            <Typography color="text.secondary"><strong> Genre: </strong> {book.genre}</Typography>
+            <Typography color="text.secondary"><strong> Published Year: </strong> {book.published_year}</Typography>
+            <Typography color="text.secondary"><strong> Description: </strong> {book.description}</Typography>
+            <Typography color="text.secondary"><strong> ISBN: </strong> {book.isbn}</Typography>
+            <button className={`button-like ${likes > 0 ? 'liked' : ''}`} onClick={() => setLikes(likes + 1)}>
+      <FavoriteIcon style={{ verticalAlign: 'middle' }} />
+      <span>{likes} Likes</span>
+         </button>
+         <div className="edit-delete-container">
+    <IconButton color="primary" onClick={handleOpen}>
+      <EditIcon />
+    </IconButton>
+    <IconButton color="secondary" onClick={() => onDelete(book.id)}>
+      <DeleteIcon />
+    </IconButton>
+  </div>
           </CardContent>
         </div>
+      </div>
       </div>
   
       {/* Modal for Editing */}
@@ -81,7 +97,7 @@ style: backdropStyle  }}
           <div style={modalContentStyle}>
             <BookForm bookToEdit={book} onBookAdded={() => {
               handleClose();
-              onEdit(); // You might need to pass some data to onEdit
+              onEdit();
             }} />
           </div>
         </Fade>
@@ -90,5 +106,4 @@ style: backdropStyle  }}
   );
     
 }
-
 export default BookItem;
