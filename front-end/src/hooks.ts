@@ -20,7 +20,7 @@ function useBooks() {
   const fetchBooks = useCallback(async () => {
     setState('loading');
     try {
-      const response = await axios.get<IBook[]>('http://localhost:4002/books');
+      const response = await axios.get<IBook[]>('http://localhost:4002/aa');
       setBooks(response.data);
       setState('success');
     } catch (err: any) {

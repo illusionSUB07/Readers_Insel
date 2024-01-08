@@ -8,10 +8,12 @@ interface ErrorScreenProps {
 const ErrorScreen: React.FC<ErrorScreenProps> = ({ error, onRetry }) => {
   let errorMessage = error.message;
 
-  // Check if it's a 404 error
-  if (errorMessage.includes('404')) {
-    errorMessage = "404 Error: It seems we've lost this page in a book somewhere!";
-  }
+if (errorMessage.includes('404')) {
+  errorMessage = "404 Error: It seems we've lost this page in a book somewhere!";
+} else if (errorMessage.toLowerCase().includes('network error') || errorMessage.includes('ERR_CONNECTION_REFUSED')) {
+  errorMessage = "Network Error: Can't connect to the server. Please try again later.";
+}
+
 
   return (
     <div className="error-screen">
