@@ -42,6 +42,7 @@ app.get('/books', (req, res) => {
 });
 
 // POST route to add a new book
+// POST route to add a new book
 app.post('/books', (req, res) => {
   const newBook = req.body; 
   connection.query('INSERT INTO books SET ?', newBook, (error, results) => {
@@ -52,6 +53,7 @@ app.post('/books', (req, res) => {
     res.status(201).send('Book added successfully');
   });
 });
+
 
 // PUT route to update a book
 app.put('/books/:id', (req, res) => {
