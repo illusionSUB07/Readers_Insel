@@ -11,7 +11,10 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({ error, onRetry }) => {
 if (errorMessage.includes('404')) {
   errorMessage = "404 Error: It seems we've lost this page in a book somewhere!";
 } else if (errorMessage.toLowerCase().includes('network error') || errorMessage.includes('ERR_CONNECTION_REFUSED')) {
-  errorMessage = "Network Error: Can't connect to the server. Please try again later.";
+  errorMessage = "Network Error: The server is busy reading a self-help book on 'How to Be a Better Server.";
+}
+else if (error.message.includes('500')) {
+  errorMessage = "500 Error: There's a problem on our end. We're working on it!";
 }
 
 
