@@ -5,7 +5,6 @@ import BookItem from './BookItem';
 import BookForm from './BookForm';
 import axios from 'axios';
 
-
 // Define an interface for the book object
 interface IBook {
   id: string;
@@ -19,12 +18,14 @@ interface IBook {
 }
 
 interface BookListProps {
-  books: IBook[]; 
+  books: IBook[];
   onRefresh: () => void; // Function to refresh the books list
+  isLoggedIn: boolean; // Added isLoggedIn prop
 }
 
-const BookList: React.FC<BookListProps> = ({ books, onRefresh }) => {
+const BookList: React.FC<BookListProps> = ({ books, onRefresh, isLoggedIn }) => {
   const [openAddForm, setOpenAddForm] = useState(false);
+
 
   const handleOpenAddForm = () => {
     setOpenAddForm(true); // Open the modal for adding a book
@@ -61,19 +62,22 @@ const BookList: React.FC<BookListProps> = ({ books, onRefresh }) => {
           book={book} 
           onDelete={handleDelete} 
           onEdit={handleBookUpdated} 
+          isLoggedIn={isLoggedIn} // Pass isLoggedIn to BookItem
         />
       ))}
 
-{/*
-<Fab 
-  color="primary" 
-  aria-label="add" 
-  style={{ position: 'fixed', bottom: 16, right: 16 }}
-  onClick={handleOpenAddForm}
->
-  <AddIcon />
-</Fab>
-*/}
+      {/* Conditional rendering of the Add button based on isLoggedIn */}
+      {isLoggedIn && (
+        <Fab 
+          color="primary" 
+          aria-label="add" 
+          style={{ position: 'fixed', bottom: 16, right: 16 }}
+          onClick={handleOpenAddForm}
+        >
+          <AddIcon />
+        </Fab>
+      )}
+
       {/* Modal for adding a new book */}
       <Modal
         open={openAddForm}
@@ -90,5 +94,4 @@ const BookList: React.FC<BookListProps> = ({ books, onRefresh }) => {
     </div>
   );
 }
-
 export default BookList;

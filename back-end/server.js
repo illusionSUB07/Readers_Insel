@@ -41,7 +41,7 @@ app.get('/books', (req, res) => {
   });
 });
 
-// POST route to add a new book
+
 // POST route to add a new book
 app.post('/books', (req, res) => {
   const newBook = req.body; 
@@ -53,6 +53,30 @@ app.post('/books', (req, res) => {
     res.status(201).send('Book added successfully');
   });
 });
+
+// POST route for user login
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  connection.query('SELECT * FROM login WHERE username = ?', [username], (error, results) => {
+    if (error) {
+      res.status(500).send('Error in database operation');
+      return;
+    }
+
+    if (results.length > 0) {
+      // Compare the plain text password
+      if (password === results[0].password) {
+          res.status(200).send('Login successful!');
+      } else {
+          res.status(401).send('Unauthorized Login. Please check your credentials again!');
+      }
+    } else {
+      res.status(401).send('Unauthorized Login. Please check your credentials again!');
+    }
+  });
+});
+
 
 
 // PUT route to update a book

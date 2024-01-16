@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Container, Box, Typography } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Container, Box, Button,Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from './AppLogo.jpeg';
+import LoginForm from './LoginForm';
+
 
 const appBarStyles = {
   backgroundColor: '#5D4037',
@@ -24,8 +26,18 @@ const titleStyles = {
   color: '#FFF8E1',
 };
 
-const MergedHeader: React.FC<{ onOpenAddForm: () => void }> = ({ onOpenAddForm }) => {
+interface MergedHeaderProps {
+  onOpenAddForm: () => void;
+  onOpenLoginForm: () => void;
+  isLoggedIn: boolean; // Make sure this prop is defined
+  onLogout: () => void; // Function to handle logout
+}
+
+
+const MergedHeader: React.FC<MergedHeaderProps> = ({ onOpenAddForm, onOpenLoginForm, isLoggedIn, onLogout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  
 
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent,
@@ -78,6 +90,11 @@ const MergedHeader: React.FC<{ onOpenAddForm: () => void }> = ({ onOpenAddForm }
             </Typography>
           </Box>
         </Container>
+        
+        {/* Conditional rendering based on isLoggedIn */}
+        {!isLoggedIn && <Button color="inherit" onClick={onOpenLoginForm}>Login</Button>}
+        {isLoggedIn && <Button color="inherit" onClick={onLogout}>Logout</Button>}
+
         <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
           {list()}
         </Drawer>

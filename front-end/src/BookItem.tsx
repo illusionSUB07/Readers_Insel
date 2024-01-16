@@ -21,9 +21,10 @@ interface IBookItemProps {
   book: IBook;
   onEdit: () => void;
   onDelete: (id: string) => void;
+  isLoggedIn: boolean;
 }
 
-const BookItem: React.FC<IBookItemProps> = ({ book, onEdit, onDelete }) => {
+const BookItem: React.FC<IBookItemProps> = ({ book, onEdit, onDelete, isLoggedIn }) => {
   const [likes, setLikes] = useState(0);
   const [open, setOpen] = useState(false); 
   const [isSelected, setIsSelected] = useState(false); 
@@ -74,14 +75,16 @@ const BookItem: React.FC<IBookItemProps> = ({ book, onEdit, onDelete }) => {
               <FavoriteIcon style={{ verticalAlign: 'middle' }} />
               <span>{likes} Likes</span>
             </button>
-            <div className="edit-delete-container">
-              <IconButton color="primary" onClick={handleOpen}>
-                <EditIcon />
-              </IconButton>
-              <IconButton color="secondary" onClick={() => onDelete(book.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </div>
+            {isLoggedIn && (
+              <div className="edit-delete-container">
+                <IconButton color="primary" onClick={handleOpen}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton color="secondary" onClick={() => onDelete(book.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </div>
+            )}
           </CardContent>
         </div>
       </div>
