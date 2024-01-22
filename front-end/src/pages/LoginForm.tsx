@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AppLogo from '../AppLogo.jpeg'; // Use the correct relative path to 'AppLogo.jpeg'
+import AppLogo from '../AppLogo.jpeg';
 
 const defaultTheme = createTheme();
 

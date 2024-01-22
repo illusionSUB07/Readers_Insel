@@ -58,13 +58,13 @@ const App: React.FC = () => {
   const handleLogin = () => {
     setIsLoggedIn(true);
     setShowLoginForm(false);
-    localStorage.setItem('isLoggedIn', 'true'); // Store login state in localStorage
+    localStorage.setItem('isLoggedIn', 'true'); 
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setShowBooks(true); // Redirect to all items screen after logout
-    localStorage.setItem('isLoggedIn', 'false'); // Update localStorage
+    localStorage.setItem('isLoggedIn', 'false'); 
   };
 
   // On component mount, check localStorage
