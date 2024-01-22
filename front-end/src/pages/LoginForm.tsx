@@ -8,8 +8,10 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AppLogo from './AppLogo.jpeg';
+import AppLogo from '../AppLogo.jpeg'; // Use the correct relative path to 'AppLogo.jpeg'
 
 const defaultTheme = createTheme();
 
@@ -21,9 +23,19 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ onCancel, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'info' | 'warning' | 'error'>('info');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!username || !password) {
+      setSnackbarMessage('Please enter both username and password.');
+      setSnackbarSeverity('warning');
+      setSnackbarOpen(true);
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:4002/login', {
@@ -35,20 +47,27 @@ const LoginForm: React.FC<LoginFormProps> = ({ onCancel, onLogin }) => {
       });
 
       if (response.status === 200) {
-        // Successful login
-        onLogin(); // Call this on successful login
-
-        console.log('Login successful!');
+        setSnackbarMessage('Login successful!');
+        setSnackbarSeverity('success');
+        onLogin();
       } else if (response.status === 401) {
-        // Unauthorized
-        console.log('Unauthorized Login. Please check your credentials again!');
+        setSnackbarMessage('Unauthorized login. Please check your credentials.');
+        setSnackbarSeverity('error');
       } else {
-        // Handle other errors
-        console.error('Error:', response.status);
+        setSnackbarMessage('An error occurred. Please try again later.');
+        setSnackbarSeverity('error');
       }
-    } catch (error) {
-      console.error('Error:', error);
+    }catch (error) {
+      const errorMessage = (error as Error).message || 'Network error. Please try again later.';
+      setSnackbarMessage(errorMessage);
+      setSnackbarSeverity('error');
     }
+    
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -61,7 +80,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onCancel, onLogin }) => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${AppLogo})`, // Use the AppLogo as background image
+            backgroundImage: `url(${AppLogo})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (theme) =>
               theme.palette.mode === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -90,8 +109,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onCancel, onLogin }) => {
                 margin="normal"
                 required
                 fullWidth
-                id="username" // Change id to 'username'
-                label="Username" // Change label to 'Username'
+                id="username"
+                label="Username"
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -130,6 +149,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onCancel, onLogin }) => {
           </Box>
         </Grid>
       </Grid>
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 };

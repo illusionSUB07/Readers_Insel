@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Footer from './Footer';
-import BookList from './BookList';
-import HeroSection from './HeroSection';
-import About from './About';
-import MergedHeader from './MergedHeader';
-import LoginForm from './LoginForm';
-import BookForm from './BookForm';
-import ErrorScreen from './ErrorScreen';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
+import Footer from './components/Footer';
+import BookList from './pages/BookList';
+import HeroSection from './pages/HeroSection';
+import About from './components/About';
+import MergedHeader from './components/MergedHeader';
+import LoginForm from './pages/LoginForm';
+import BookForm from './pages/BookForm';
+import ErrorScreen from './pages/ErrorScreen';
 import { Modal, Backdrop, Fade } from '@mui/material';
 import { useBooks } from './hooks';
+import ProtectedRoute from './Routes/ProtectedRoute';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +19,12 @@ const App: React.FC = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   const { books, state, error, refresh } = useBooks();
+
+  const EditBookFormWrapper: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const bookToEdit = books.find(book => book.id === id);
+    return <BookForm bookToEdit={bookToEdit} onBookAdded={handleBookAdded} />;
+  };
 
   const refreshBooks = () => {
     refresh();
@@ -51,19 +58,27 @@ const App: React.FC = () => {
   const handleLogin = () => {
     setIsLoggedIn(true);
     setShowLoginForm(false);
+    localStorage.setItem('isLoggedIn', 'true'); // Store login state in localStorage
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setShowBooks(true); // Redirect to all items screen after logout
+    localStorage.setItem('isLoggedIn', 'false'); // Update localStorage
   };
+
+  // On component mount, check localStorage
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(storedLoginState);
+  }, []);
 
   return (
     <Router>
       <div className="App">
-        <MergedHeader 
-          onOpenAddForm={handleOpenAddForm} 
-          onOpenLoginForm={handleOpenLoginForm} 
+        <MergedHeader
+          onOpenAddForm={handleOpenAddForm}
+          onOpenLoginForm={handleOpenLoginForm}
           isLoggedIn={isLoggedIn}
           onLogout={handleLogout}
         />
@@ -79,7 +94,7 @@ const App: React.FC = () => {
                   <>
                     {state === 'loading' && <p>Loading books...</p>}
                     {state === 'error' && error && <ErrorScreen error={error} onRetry={refresh} />}
-                    {state === 'success' && 
+                    {state === 'success' &&
                       <BookList books={books} isLoggedIn={isLoggedIn} onRefresh={refreshBooks} />}
                   </>
                 )}
@@ -89,6 +104,22 @@ const App: React.FC = () => {
             <Route path="/books" element={
               <BookList books={books} isLoggedIn={isLoggedIn} onRefresh={refreshBooks} />
             } />
+            <Route
+              path="/addNewItem"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <BookForm onBookAdded={handleBookAdded} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/item/:id/edit"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <EditBookFormWrapper />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         )}
 

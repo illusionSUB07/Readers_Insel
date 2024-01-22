@@ -66,17 +66,19 @@ const BookList: React.FC<BookListProps> = ({ books, onRefresh, isLoggedIn }) => 
         />
       ))}
 
-      {/* Conditional rendering of the Add button based on isLoggedIn */}
-      {isLoggedIn && (
-        <Fab 
-          color="primary" 
-          aria-label="add" 
-          style={{ position: 'fixed', bottom: 16, right: 16 }}
-          onClick={handleOpenAddForm}
-        >
-          <AddIcon />
-        </Fab>
-      )}
+     {/* Conditional rendering of the Add button based on isLoggedIn */}
+{/* 
+{isLoggedIn && (
+  <Fab 
+    color="primary" 
+    aria-label="add" 
+    style={{ position: 'fixed', bottom: 16, right: 16 }}
+    onClick={handleOpenAddForm}
+  >
+    <AddIcon />
+  </Fab>
+)}
+*/}
 
       {/* Modal for adding a new book */}
       <Modal

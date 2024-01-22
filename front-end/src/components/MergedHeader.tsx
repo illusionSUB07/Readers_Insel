@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, IconButton, Drawer, List, ListItem, ListItemText, Container, Box, Button,Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Logo from './AppLogo.jpeg';
-import LoginForm from './LoginForm';
-
+import Logo from '../AppLogo.jpeg';
+import LoginForm  from '../pages/LoginForm';
 
 const appBarStyles = {
   backgroundColor: '#5D4037',

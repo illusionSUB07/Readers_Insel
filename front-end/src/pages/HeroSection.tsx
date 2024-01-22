@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import backgroundImage from './Background.png';
+import backgroundImage from '../Background.png';
 
 interface HeroSectionProps {
   onGetStarted: () => void;

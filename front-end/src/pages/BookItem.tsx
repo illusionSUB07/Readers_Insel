@@ -3,7 +3,7 @@ import { Typography, IconButton, CardContent, Modal, Backdrop, Fade } from '@mui
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import './App.css'; 
+import '../styles/App.css';
 import BookForm from './BookForm';
 
 interface IBook {
