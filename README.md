@@ -1,7 +1,6 @@
 # Readers_Insel
 
 Author: Daniyal Khan
-Matrikel#: 582859.
 
 **Items' Category:** (BOOKS)
 
